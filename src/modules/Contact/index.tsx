@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import Stratum from '../../components/Stratum';
 import { contact } from '../../data/contact.data';
-import { moduleById } from '../../data/moduleById';
 import { useCopyToClipboard } from '../../lib/useCopyToClipboard';
 
 /**
@@ -13,7 +12,6 @@ import { useCopyToClipboard } from '../../lib/useCopyToClipboard';
  * Web3Forms endpoint in src/data/contact.data.ts. See HOW-TO-UPDATE.md.
  */
 export default function Contact() {
-  const m = moduleById('contact');
   const { copied, copy } = useCopyToClipboard();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -48,15 +46,15 @@ export default function Contact() {
   }
 
   return (
-    <Stratum id="contact" depth={m.depth} index="08" title={contact.heading} lede={contact.blurb}>
+    <Stratum id="contact" index="08" title={contact.heading} lede={contact.blurb}>
       <div className="grid gap-10 md:grid-cols-2 md:gap-12">
         {/* Channels */}
-        <div className="flex flex-col gap-px" style={{ background: 'var(--color-line)' }}>
+        <div className="flex flex-col gap-2.5">
           {contact.channels.map((c) => (
             <div
               key={c.id}
-              className="flex flex-col items-start justify-between gap-3 p-4 sm:flex-row sm:items-center"
-              style={{ background: 'var(--color-bg)' }}
+              className="flex flex-col items-start justify-between gap-3 rounded-[16px] p-4 sm:flex-row sm:items-center"
+              style={{ background: '#fff', boxShadow: 'var(--shadow-sm)' }}
             >
               <div className="min-w-0">
                 <p
@@ -74,11 +72,10 @@ export default function Contact() {
                   <button
                     type="button"
                     onClick={() => copy(c.value, c.id)}
-                    className="inline-flex min-h-11 items-center rounded-full px-4 font-mono text-[11px] transition-colors"
+                    className="inline-flex min-h-11 items-center rounded-full px-4 text-sm font-medium transition-colors"
                     style={{
-                      background: 'var(--color-surface)',
-                      color: copied === c.id ? 'var(--color-accent-2)' : 'var(--color-ink)',
-                      boxShadow: 'inset 0 0 0 1px var(--color-line)',
+                      background: 'var(--color-accent-soft)',
+                      color: 'var(--color-accent-deep)',
                     }}
                   >
                     {copied === c.id ? 'Copied' : 'Copy'}
@@ -88,12 +85,8 @@ export default function Contact() {
                   href={c.href}
                   target={c.href.startsWith('http') ? '_blank' : undefined}
                   rel={c.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  className="inline-flex min-h-11 items-center rounded-full px-4 font-mono text-[11px] transition-colors"
-                  style={{
-                    background: 'var(--color-surface)',
-                    color: 'var(--color-ink)',
-                    boxShadow: 'inset 0 0 0 1px var(--color-line)',
-                  }}
+                  className="inline-flex min-h-11 items-center rounded-full px-4 text-sm font-medium transition-colors"
+                  style={{ background: 'var(--color-accent)', color: '#fff' }}
                 >
                   Open
                 </a>
@@ -106,8 +99,8 @@ export default function Contact() {
         <div>
           {sent ? (
             <div
-              className="rounded-lg p-6"
-              style={{ background: 'var(--color-surface)', boxShadow: 'inset 0 0 0 1px var(--color-accent)' }}
+              className="rounded-[20px] p-6"
+              style={{ background: 'var(--color-accent-soft)', boxShadow: 'var(--shadow-sm)' }}
               role="status"
             >
               <p style={{ color: 'var(--color-ink)' }}>Message sent. I will get back to you.</p>
@@ -134,7 +127,7 @@ export default function Contact() {
               <div>
                 <label
                   htmlFor="message"
-                  className="mb-1.5 block font-mono text-[10px] tracking-[0.2em] uppercase"
+                  className="mb-2 block font-mono text-[10px] font-medium tracking-[0.2em] uppercase"
                   style={{ color: 'var(--color-muted)' }}
                 >
                   Message
@@ -146,20 +139,15 @@ export default function Contact() {
                   onChange={(e) => setMessage(e.target.value)}
                   disabled={!formReady}
                   required
-                  className="w-full rounded-md p-3 text-[15px] disabled:opacity-50"
-                  style={{
-                    background: 'var(--color-surface)',
-                    border: '1px solid var(--color-line)',
-                    color: 'var(--color-ink)',
-                    fontFamily: 'var(--font-body)',
-                  }}
+                  className="w-full rounded-[14px] p-3.5 text-[15px] transition-shadow focus:shadow-md disabled:opacity-50"
+                  style={{ background: '#fff', color: 'var(--color-ink)', boxShadow: 'inset 0 0 0 1px var(--color-line)', fontFamily: 'var(--font-body)' }}
                 />
               </div>
               <button
                 type="submit"
                 disabled={!formReady || sending}
-                className="inline-flex min-h-11 items-center justify-center rounded-full px-5 font-mono text-xs transition-opacity disabled:opacity-40"
-                style={{ background: 'var(--color-accent)', color: 'var(--color-bg)' }}
+                className="inline-flex min-h-11 items-center justify-center rounded-full px-6 text-sm font-medium transition-opacity disabled:opacity-40"
+                style={{ background: 'var(--color-accent)', color: '#fff', boxShadow: 'var(--shadow-sm)' }}
               >
                 {sending ? 'Sending…' : 'Send message'}
               </button>
@@ -172,8 +160,8 @@ export default function Contact() {
           )}
 
           <p
-            className="mt-8 border-l-2 pl-4 text-[15px] leading-relaxed"
-            style={{ borderColor: 'var(--color-accent)', color: 'var(--color-ink)' }}
+            className="mt-8 rounded-[14px] p-4 text-[15px] leading-relaxed"
+            style={{ background: 'var(--color-bg-tint)', color: 'var(--color-ink)', boxShadow: 'inset 0 0 0 1px var(--color-line-soft)' }}
           >
             {contact.closing}
           </p>
@@ -216,13 +204,8 @@ function Field({
         onChange={(e) => onChange(e.target.value)}
         disabled={disabled}
         required={required}
-        className="min-h-11 w-full rounded-md p-3 text-[15px] disabled:opacity-50"
-        style={{
-          background: 'var(--color-surface)',
-          border: '1px solid var(--color-line)',
-          color: 'var(--color-ink)',
-          fontFamily: 'var(--font-body)',
-        }}
+        className="min-h-11 w-full rounded-[14px] p-3.5 text-[15px] transition-shadow focus:shadow-md disabled:opacity-50"
+        style={{ background: '#fff', color: 'var(--color-ink)', boxShadow: 'inset 0 0 0 1px var(--color-line)', fontFamily: 'var(--font-body)' }}
       />
     </div>
   );

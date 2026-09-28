@@ -1,16 +1,20 @@
 import type { ProjectsData } from '../types/content';
 
+/**
+ * Field-work visuals are the original synthetic SVG figures.
+ * Open-source projects use the repos' own screenshots — yours to publish.
+ */
 export const projects: ProjectsData = {
   tiers: [
     {
       id: 'open-source',
       label: 'Open Source',
-      note: 'MIT-licensed, built and released free. Verifiable — click through and run it.',
+      note: 'MIT-licensed, built and released free. You can click through and run them.',
     },
     {
       id: 'field',
       label: 'Field Work',
-      note: 'Employer projects. Numbers and outcomes are real; data and visuals are synthetic or withheld.',
+      note: 'Employer projects. The outcomes are real; the data and figures are synthetic or withheld.',
     },
   ],
 
@@ -22,6 +26,11 @@ export const projects: ProjectsData = {
       title: 'OPM-AI',
       role: 'Developer and author',
       repo: 'https://github.com/pranay-gpt/opm-ai',
+      images: [
+        { src: './img/opmai-home.png', alt: 'OPM-AI workbench home screen with the deck generation flow' },
+        { src: './img/opmai-kpis.png', alt: 'Results viewer showing a 16-panel KPI grid of simulation results' },
+        { src: './img/opmai-plots.png', alt: 'Interactive result plots with a control rail' },
+      ],
       problem:
         'Reservoir simulation is bottlenecked by legacy workflows, not by governing equations. OPM Flow gives away an industry-grade three-phase black-oil solver, but the unforgiving Eclipse-style .DATA deck — one misplaced slash and it fails to converge — locks practical reservoir engineering behind a steep learning curve.',
       approach:
@@ -29,7 +38,8 @@ export const projects: ProjectsData = {
       outcome:
         'In use by university students and educators who have no access to commercial simulation tooling. Built as free community development, outside employer hours.',
       visual: 'screenshot',
-      badges: ['MIT', '513 tests', '3★', 'Used by university students', 'Free community development'],
+      featured: true,
+      badges: ['MIT', '513 tests', 'Used by university students'],
       tags: ['Python', 'FastAPI', 'React 18', 'OPM Flow', 'TypeScript', 'Docker', 'CI'],
       visibility: 'public',
     },
@@ -39,6 +49,10 @@ export const projects: ProjectsData = {
       title: 'StrataBench',
       role: 'Developer and author',
       repo: 'https://github.com/pranay-gpt/stratabench',
+      images: [
+        { src: './img/sb-dashboard.png', alt: 'Leaderboard of complete 505-question model evaluations' },
+        { src: './img/sb-results.png', alt: 'Run diagnostics with accuracy by domain and answer-behaviour breakdown' },
+      ],
       problem:
         'A model can look excellent on a general-purpose leaderboard and still fail on formation evaluation, petrophysics or drilling concepts. Specialist evaluation needs more than a percentage — it needs a pinned dataset, a versioned prompt, transparent failure semantics and question-level evidence.',
       approach:
@@ -46,6 +60,7 @@ export const projects: ProjectsData = {
       outcome:
         'Only 505/505 scorable runs count as final. Parse failures count as incorrect and API failures lower coverage — a benchmark that refuses to flatter itself. Ships a full ATTRIBUTION.md crediting the benchmark author.',
       visual: 'screenshot',
+      featured: true,
       badges: ['MIT', 'TypeScript', 'Auditable', 'Properly attributed'],
       tags: ['TypeScript', 'Node 22', 'LLM evaluation', 'Benchmarking', 'SQLite', 'Vitest'],
       visibility: 'public',
@@ -145,7 +160,7 @@ export const projects: ProjectsData = {
         'Interval identification and flow-regime interpretation made repeatable rather than subjective, on continuously measured pressure data.',
       visual: 'pta',
       badges: ['Implementation of a published method', 'Credited to the inventor'],
-      tags: ['PTA', 'Pressure Transient Analysis', 'Pattern Recognition', 'Derivative Analysis'],
+      tags: ['PTA', 'Pattern Recognition', 'Derivative Analysis', 'Well Testing'],
       visibility: 'public',
     },
   ],

@@ -1,6 +1,6 @@
 import Stratum from '../../components/Stratum';
+import Pop from '../../components/Pop';
 import { publications } from '../../data/publications.data';
-import { moduleById } from '../../data/moduleById';
 import type { Publication } from '../../types/content';
 
 /**
@@ -11,33 +11,35 @@ import type { Publication } from '../../types/content';
  * neither is.
  */
 export default function Publications() {
-  const m = moduleById('publications');
   const items = publications.items.filter((p) => p.visibility === 'public');
 
   return (
     <Stratum
       id="publications"
-      depth={m.depth}
       index="04"
       title="Publications & Presentations"
       lede="Conference work, presented and co-authored. Both below were delivered as poster presentations."
     >
-      <ol className="flex flex-col gap-10 md:gap-12">
-        {items.map((p) => (
-          <PublicationCard key={p.id} pub={p} />
+      <div className="flex flex-col gap-5">
+        {items.map((p, i) => (
+          <PublicationCard key={p.id} pub={p} delay={i} />
         ))}
-      </ol>
+      </div>
     </Stratum>
   );
 }
 
-function PublicationCard({ pub }: { pub: Publication }) {
+function PublicationCard({ pub, delay }: { pub: Publication; delay: number }) {
   return (
-    <li>
+    <Pop as="article" delay={delay} className="rounded-[20px]">
+      <div
+        className="rounded-[20px] p-5 md:p-7"
+        style={{ background: '#fff', boxShadow: 'var(--shadow-sm)' }}
+      >
       <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 font-mono text-[11px]">
         <span
-          className="rounded-full px-2 py-0.5 uppercase tracking-wider"
-          style={{ background: 'rgba(76,194,255,0.10)', color: 'var(--color-accent)' }}
+          className="rounded-full px-2.5 py-1 uppercase tracking-wider"
+          style={{ background: 'var(--color-accent-soft)', color: 'var(--color-accent-deep)' }}
         >
           {pub.kind}
         </span>
@@ -70,8 +72,8 @@ function PublicationCard({ pub }: { pub: Publication }) {
             >
               <span
                 aria-hidden="true"
-                className="mt-2 h-1 w-1 shrink-0 rounded-full"
-                style={{ background: 'var(--color-accent-2)' }}
+                className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full"
+                style={{ background: 'var(--color-accent)' }}
               />
               <span>{h}</span>
             </li>
@@ -95,6 +97,7 @@ function PublicationCard({ pub }: { pub: Publication }) {
           ))}
         </div>
       ) : null}
-    </li>
+      </div>
+    </Pop>
   );
 }

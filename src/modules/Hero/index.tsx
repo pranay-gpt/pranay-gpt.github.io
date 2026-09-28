@@ -1,103 +1,126 @@
 import { useEffect, useState } from 'react';
 import { hero } from '../../data/hero.data';
 import { useScrollProgress } from '../../lib/useScrollProgress';
+import Pop from '../../components/Pop';
 
 /**
- * HERO — typographic, over a layered background.
+ * HERO
  *
- * Deliberately not a 3D scene. Phone-first: the first viewport has to carry
- * the name, the role, one honest sentence, and four ways to reach me — on a
- * 5" screen, in sunlight, on mobile data.
+ * Type does the work. No canvas, no particle field, no looping background —
+ * the previous version's animated strata were the uncomfortable part and they
+ * are gone for good. What is left is a soft static wash, a thesis, and a
+ * credibility strip, which is the structure the reference layout gets right.
  */
 export default function Hero() {
-  const { progress, depth } = useScrollProgress();
+  const { progress } = useScrollProgress();
   const [past, setPast] = useState(false);
 
-  useEffect(() => {
-    setPast(progress > 0.04);
-  }, [progress]);
+  useEffect(() => setPast(progress > 0.03), [progress]);
 
   return (
     <header
       id="top"
-      className="relative flex min-h-[80svh] items-end pb-16 md:min-h-[92svh] md:items-center md:pb-0"
-      style={{ paddingTop: 'clamp(4.5rem, 12vh, 7rem)' }}
+      className="relative overflow-hidden"
+      style={{ paddingBlock: 'clamp(5rem, 13vh, 8.5rem) clamp(3rem, 7vh, 5rem)' }}
     >
-      <div className="shell w-full">
-        {/* Kicker — mono, accent, letterspaced */}
-        <p
-          className="mb-4 font-mono text-xs tracking-[0.2em] uppercase"
-          style={{ color: 'var(--color-accent)' }}
-        >
-          {hero.kicker}
-        </p>
+      {/* Static, soft, and out of the way. No animation, no flicker. */}
+      <div
+        className="hero-wash pointer-events-none absolute inset-0 -z-10"
+        aria-hidden="true"
+        style={{
+          background:
+            'radial-gradient(70% 55% at 78% 8%, rgba(29,95,208,0.09) 0%, rgba(29,95,208,0) 62%), radial-gradient(52% 44% at 8% 88%, rgba(29,95,208,0.06) 0%, rgba(29,95,208,0) 60%)',
+        }}
+      />
 
-        <h1
-          className="text-4xl md:text-5xl"
-          style={{ color: 'var(--color-ink)' }}
-        >
-          {hero.name}
-        </h1>
+      <div className="shell">
+        <Pop>
+          <p
+            className="mb-5 font-mono text-[11px] font-medium tracking-[0.18em] uppercase"
+            style={{ color: 'var(--color-accent)' }}
+          >
+            {hero.kicker}
+          </p>
+        </Pop>
 
-        <p
-          className="mt-3 font-mono text-sm tracking-wide md:text-base"
-          style={{ color: 'var(--color-muted)' }}
-        >
-          {hero.tagline}
-        </p>
+        <Pop delay={1}>
+          <h1
+            className="max-w-3xl text-4xl md:text-5xl"
+            style={{ color: 'var(--color-ink)' }}
+          >
+            {hero.thesis}
+          </h1>
+        </Pop>
 
-        <hr className="rule my-7 max-w-md" />
+        <Pop delay={2} className="mt-6">
+          <p className="text-base font-medium" style={{ color: 'var(--color-ink-2)' }}>
+            {hero.name} · {hero.role}
+          </p>
+          <p className="mt-1 font-mono text-xs" style={{ color: 'var(--color-muted)' }}>
+            {hero.location}
+          </p>
+        </Pop>
 
-        <p
-          className="max-w-xl text-base leading-relaxed md:text-lg"
-          style={{ color: 'var(--color-ink)' }}
-        >
-          {hero.summary}
-        </p>
+        <Pop delay={3} className="mt-7 max-w-2xl">
+          <p className="text-[15px] leading-relaxed md:text-lg" style={{ color: 'var(--color-muted)' }}>
+            {hero.summary}
+          </p>
+        </Pop>
 
-        {/* CTAs — 44px tap targets minimum */}
-        <div className="mt-8 flex flex-wrap gap-3">
-          {hero.ctas.map((cta) => (
+        <Pop delay={4} className="mt-8 flex flex-wrap gap-2.5">
+          {hero.ctas.map((c) => (
             <a
-              key={cta.label}
-              href={cta.href}
-              target={cta.href.startsWith('http') ? '_blank' : undefined}
-              rel={cta.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-              className="inline-flex min-h-11 items-center rounded-full px-5 font-mono text-xs tracking-wide transition-colors"
-              style={{
-                background: 'var(--color-surface)',
-                color: 'var(--color-ink)',
-                boxShadow: 'inset 0 0 0 1px var(--color-line)',
-              }}
+              key={c.label}
+              href={c.href}
+              target={c.href.startsWith('http') ? '_blank' : undefined}
+              rel={c.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+              className="inline-flex min-h-11 items-center rounded-full px-5 text-sm font-medium transition-all"
+              style={{ background: 'var(--color-accent)', color: '#fff', boxShadow: 'var(--shadow-sm)' }}
             >
-              {cta.label}
+              {c.label}
             </a>
           ))}
-        </div>
+        </Pop>
+
+        {/* Credibility strip — the fastest possible answer to "should I keep reading?" */}
+        <Pop delay={5} className="mt-10">
+          <div
+            className="rounded-[20px] p-4 md:p-5"
+            style={{ background: 'var(--color-bg-tint)', boxShadow: 'inset 0 0 0 1px var(--color-line)' }}
+          >
+            <p
+              className="mb-3 font-mono text-[10px] tracking-[0.18em] uppercase"
+              style={{ color: 'var(--color-muted)' }}
+            >
+              Experience at
+            </p>
+            <ul className="grid grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-4">
+              {hero.credentials.map((c) => (
+                <li key={c.label}>
+                  <p className="text-sm font-medium" style={{ color: 'var(--color-ink)' }}>
+                    {c.label}
+                  </p>
+                  {c.sub ? (
+                    <p className="font-mono text-[10px]" style={{ color: 'var(--color-muted)' }}>
+                      {c.sub}
+                    </p>
+                  ) : null}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Pop>
       </div>
 
-      {/* Live depth readout — the signature detail */}
       <div
-        className="pointer-events-none absolute right-5 bottom-6 font-mono text-[10px] tracking-widest md:right-10"
-        style={{ color: 'var(--color-muted)' }}
-        aria-hidden="true"
-      >
-        {depth} m MD
-      </div>
-
-      {/* Scroll cue, fades out as soon as you move */}
-      <div
-        className="pointer-events-none absolute bottom-5 left-5 flex items-center gap-2 transition-opacity duration-500 md:left-auto md:right-10"
+        className="pointer-events-none absolute bottom-5 left-5 flex items-center gap-2 transition-opacity duration-500"
         style={{ opacity: past ? 0 : 1 }}
         aria-hidden="true"
       >
         <span className="font-mono text-[9px] tracking-[0.2em] uppercase" style={{ color: 'var(--color-muted)' }}>
           Scroll
         </span>
-        <div
-          className="h-6 w-px"
-          style={{ background: 'linear-gradient(180deg, var(--color-accent), transparent)' }}
-        />
+        <div className="h-6 w-px" style={{ background: 'linear-gradient(180deg, var(--color-accent), transparent)' }} />
       </div>
     </header>
   );

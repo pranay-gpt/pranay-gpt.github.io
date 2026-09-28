@@ -29,9 +29,13 @@ Three decisions worth knowing about:
 
 React 19 · TypeScript · Vite 7 · Tailwind CSS 4 · GitHub Actions → GitHub Pages
 
-No animation library, no chart library, no CMS. The strata background is ~2 KB of
-dependency-free 2D canvas; every project visual is hand-built SVG. That is most of why
-the bundle is small.
+No animation library, no chart library, no CMS. Scroll reveals are a single
+IntersectionObserver; every field-work figure is hand-built SVG; the open-source
+projects use their own real screenshots. That is most of why the bundle stays small.
+
+The palette is a white canvas with one mid blue and soft blue-tinted shadows, carried
+on rounded 20px cards. There is no animated background — the first version had one and
+it was uncomfortable.
 
 ## Sections
 
@@ -49,7 +53,7 @@ the bundle is small.
 
 ## Accessibility
 
-- All six text/background pairs meet **WCAG AA** (lowest is 6.29:1).
+- All 14 text/background pairs meet **WCAG AA** (lowest is 4.86:1).
 - `prefers-reduced-motion` is honoured: strata become static bands, reveals become
   instant, the canvas stops. Full content parity, not a degraded version.
 - Keyboard navigable, visible focus rings, 44px minimum tap targets, no hover-only

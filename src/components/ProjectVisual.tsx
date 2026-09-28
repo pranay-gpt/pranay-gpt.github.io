@@ -33,13 +33,13 @@ export default function ProjectVisual({ project }: { project: Project }) {
 function Frame({ children, caption }: { children: React.ReactNode; caption: string }) {
   return (
     <figure
-      className="mt-5 overflow-hidden rounded-md"
-      style={{ background: 'var(--color-bg)', boxShadow: 'inset 0 0 0 1px var(--color-line)' }}
+      className="overflow-hidden"
+      style={{ borderRadius: 'var(--radius-img)', boxShadow: 'inset 0 0 0 1px var(--color-line)' }}
     >
-      <div className="aspect-[16/10] w-full">{children}</div>
+      <div className="w-full" style={{ background: 'var(--color-bg-tint)' }}>{children}</div>
       <figcaption
-        className="px-3 py-2 font-mono text-[10px] tracking-wide"
-        style={{ color: 'var(--color-muted)' }}
+        className="px-3 py-1.5 font-mono text-[10px] tracking-wide"
+        style={{ background: 'var(--color-bg-tint)', color: 'var(--color-muted)' }}
       >
         {caption}
       </figcaption>
@@ -81,22 +81,22 @@ function ContourTransform() {
       <svg viewBox="0 0 320 200" className="h-full w-full" role="img" aria-label="Contour lines resolving into a mesh">
         {/* Left: crude legacy scan */}
         <g>
-          <rect x="0" y="0" width="160" height="200" fill="#0d1119" />
+          <rect x="0" y="0" width="160" height="200" fill="#F7FAFD" />
           {Array.from({ length: 9 }).map((_, i) => (
             <path
               key={i}
               d={`M ${8 + i * 3} ${100 + i * 7} Q ${80} ${70 + i * 9}, ${152 - i * 3} ${104 + i * 7}`}
               fill="none"
-              stroke="#3d4a5c"
+              stroke="#C3DAF7"
               strokeWidth="0.9"
               strokeDasharray={i % 2 ? '2 3' : undefined}
             />
           ))}
-          <text x="10" y="188" fill="#8b9ab0" fontSize="7" fontFamily="monospace">LEGACY JPEG</text>
+          <text x="10" y="188" fill="#566A86" fontSize="7" fontFamily="monospace">LEGACY JPEG</text>
         </g>
         {/* Right: reconstructed surface */}
         <g transform="translate(160,0)">
-          <rect x="0" y="0" width="160" height="200" fill="#0a0e14" />
+          <rect x="0" y="0" width="160" height="200" fill="#FFFFFF" />
           {Array.from({ length: 10 }).map((_, r) =>
             Array.from({ length: 10 }).map((_, c) => {
               const z = 34 + Math.sin(c * 0.7) * 12 + Math.cos(r * 0.8) * 9;
@@ -107,12 +107,12 @@ function ContourTransform() {
                   y={r * 15 + 6}
                   width={13}
                   height={13}
-                  fill={`rgba(76,194,255,${(z / 100).toFixed(3)})`}
+                  fill={`rgba(29,95,208,${(z / 100).toFixed(3)})`}
                 />
               );
             }),
           )}
-          <text x="10" y="188" fill="#4cc2ff" fontSize="7" fontFamily="monospace">3D SURFACE</text>
+          <text x="10" y="188" fill="#1D5FD0" fontSize="7" fontFamily="monospace">3D SURFACE</text>
         </g>
       </svg>
     </Frame>
@@ -126,20 +126,20 @@ function SrpDiagnostic() {
       <svg viewBox="0 0 320 200" className="h-full w-full" role="img" aria-label="Pumping unit load curve, skin index comparison, and cycle optimisation">
         {/* (a) pumping-unit load curve with imbalance */}
         <g transform="translate(6,10)">
-          <text x="0" y="0" fill="#8b9ab0" fontSize="7" fontFamily="monospace">A · LOAD</text>
+          <text x="0" y="0" fill="#566A86" fontSize="7" fontFamily="monospace">A · LOAD</text>
           <polyline
             points="0,60 20,22 40,60 60,66 80,30 100,66 120,72 140,36 160,72"
             fill="none"
-            stroke="#4cc2ff"
+            stroke="#1D5FD0"
             strokeWidth="1.4"
           />
-          <line x1="100" y1="0" x2="100" y2="78" stroke="#ffb454" strokeWidth="1" strokeDasharray="3 3" />
-          <text x="103" y="10" fill="#ffb454" fontSize="6" fontFamily="monospace">IMBALANCE</text>
-          <line x1="0" y1="72" x2="160" y2="72" stroke="#1e2a3a" strokeWidth="1" />
+          <line x1="100" y1="0" x2="100" y2="78" stroke="#AD5417" strokeWidth="1" strokeDasharray="3 3" />
+          <text x="103" y="10" fill="#AD5417" fontSize="6" fontFamily="monospace">IMBALANCE</text>
+          <line x1="0" y1="72" x2="160" y2="72" stroke="#DBE6F4" strokeWidth="1" />
         </g>
         {/* (b) skin index before/after */}
         <g transform="translate(180,10)">
-          <text x="0" y="0" fill="#8b9ab0" fontSize="7" fontFamily="monospace">B · SKIN</text>
+          <text x="0" y="0" fill="#566A86" fontSize="7" fontFamily="monospace">B · SKIN</text>
           {[
             { h: 46, label: 'W1' },
             { h: 62, label: 'W2' },
@@ -147,18 +147,18 @@ function SrpDiagnostic() {
             { h: 54, label: 'W4' },
           ].map((d, i) => (
             <g key={d.label} transform={`translate(${i * 26}, 12)`}>
-              <rect x="0" y={62 - d.h} width="9" height={d.h} fill="#3d4a5c" />
-              <rect x="11" y={62 - d.h * 0.55} width="9" height={d.h * 0.55} fill="#4cc2ff" />
-              <text x="4" y="74" fill="#8b9ab0" fontSize="6" fontFamily="monospace">{d.label}</text>
+              <rect x="0" y={62 - d.h} width="9" height={d.h} fill="#C3DAF7" />
+              <rect x="11" y={62 - d.h * 0.55} width="9" height={d.h * 0.55} fill="#1D5FD0" />
+              <text x="4" y="74" fill="#566A86" fontSize="6" fontFamily="monospace">{d.label}</text>
             </g>
           ))}
         </g>
         {/* (c) ML predicted vs actual cycle optimum */}
         <g transform="translate(6,110)">
-          <text x="0" y="0" fill="#8b9ab0" fontSize="7" fontFamily="monospace">C · CYCLE OPTIMUM</text>
-          <path d="M 0 70 C 40 70, 60 20, 130 16 S 240 14, 310 14" fill="none" stroke="#ffb454" strokeWidth="1.4" />
-          <path d="M 0 70 C 40 68, 62 28, 130 24 S 240 22, 310 22" fill="none" stroke="#4cc2ff" strokeWidth="1.2" strokeDasharray="4 3" />
-          <line x1="0" y1="70" x2="310" y2="70" stroke="#1e2a3a" strokeWidth="1" />
+          <text x="0" y="0" fill="#566A86" fontSize="7" fontFamily="monospace">C · CYCLE OPTIMUM</text>
+          <path d="M 0 70 C 40 70, 60 20, 130 16 S 240 14, 310 14" fill="none" stroke="#AD5417" strokeWidth="1.4" />
+          <path d="M 0 70 C 40 68, 62 28, 130 24 S 240 22, 310 22" fill="none" stroke="#1D5FD0" strokeWidth="1.2" strokeDasharray="4 3" />
+          <line x1="0" y1="70" x2="310" y2="70" stroke="#DBE6F4" strokeWidth="1" />
         </g>
       </svg>
     </Frame>
@@ -168,12 +168,12 @@ function SrpDiagnostic() {
 /** F-4: agent architecture with an explicit human-in-the-loop boundary. */
 function AgentArchitecture() {
   const box = (x: number, y: number, w: number, h: number, label: string, tone: 'in' | 'agent' | 'out' | 'human') => {
-    const fill = tone === 'agent' ? 'rgba(76,194,255,0.10)' : tone === 'human' ? 'rgba(255,180,84,0.10)' : 'var(--color-surface-2)';
-    const stroke = tone === 'agent' ? 'rgba(76,194,255,0.35)' : tone === 'human' ? 'rgba(255,180,84,0.35)' : 'var(--color-line)';
+    const fill = tone === 'agent' ? 'rgba(29,95,208,0.10)' : tone === 'human' ? 'rgba(221,122,60,0.10)' : 'var(--color-surface-2)';
+    const stroke = tone === 'agent' ? 'rgba(29,95,208,0.35)' : tone === 'human' ? 'rgba(221,122,60,0.35)' : 'var(--color-line)';
     return (
       <g key={label}>
         <rect x={x} y={y} width={w} height={h} rx="3" fill={fill} stroke={stroke} strokeWidth="1" />
-        <text x={x + w / 2} y={y + h / 2 + 3} fill="#e8edf4" fontSize="7" fontFamily="monospace" textAnchor="middle">
+        <text x={x + w / 2} y={y + h / 2 + 3} fill="#0C1D38" fontSize="7" fontFamily="monospace" textAnchor="middle">
           {label}
         </text>
       </g>
@@ -187,28 +187,28 @@ function AgentArchitecture() {
         {box(4, 42, 62, 22, 'SQL / API', 'in')}
         {box(4, 70, 62, 22, 'PYTHON', 'in')}
 
-        <path d="M 66 25 L 92 25 L 92 60 L 104 60" fill="none" stroke="#4cc2ff" strokeWidth="1" />
-        <path d="M 66 53 L 104 53" fill="none" stroke="#4cc2ff" strokeWidth="1" />
-        <path d="M 66 81 L 92 81 L 92 60 L 104 60" fill="none" stroke="#4cc2ff" strokeWidth="1" />
+        <path d="M 66 25 L 92 25 L 92 60 L 104 60" fill="none" stroke="#1D5FD0" strokeWidth="1" />
+        <path d="M 66 53 L 104 53" fill="none" stroke="#1D5FD0" strokeWidth="1" />
+        <path d="M 66 81 L 92 81 L 92 60 L 104 60" fill="none" stroke="#1D5FD0" strokeWidth="1" />
 
         {box(104, 34, 74, 40, 'AGENT LOOP', 'agent')}
 
-        <path d="M 178 48 L 200 48" fill="none" stroke="#4cc2ff" strokeWidth="1" markerEnd="" />
+        <path d="M 178 48 L 200 48" fill="none" stroke="#1D5FD0" strokeWidth="1" markerEnd="" />
         {box(200, 26, 66, 22, 'REPORTS', 'out')}
         {box(200, 58, 66, 22, 'ALARMS', 'out')}
 
         {/* Autonomous action */}
-        <path d="M 141 74 L 141 100 L 92 100 L 92 128" fill="none" stroke="#4cc2ff" strokeWidth="1" />
+        <path d="M 141 74 L 141 100 L 92 100 L 92 128" fill="none" stroke="#1D5FD0" strokeWidth="1" />
         {box(20, 128, 68, 24, 'PLC ACTION', 'out')}
 
         {/* The boundary. This is what makes the diagram credible. */}
-        <line x1="100" y1="112" x2="292" y2="112" stroke="#ffb454" strokeWidth="1" strokeDasharray="4 3" />
-        <text x="296" y="115" fill="#ffb454" fontSize="6" fontFamily="monospace" textAnchor="end">
+        <line x1="100" y1="112" x2="292" y2="112" stroke="#AD5417" strokeWidth="1" strokeDasharray="4 3" />
+        <text x="296" y="115" fill="#AD5417" fontSize="6" fontFamily="monospace" textAnchor="end">
           HUMAN
         </text>
         {box(200, 128, 66, 24, 'ENGINEER', 'human')}
 
-        <text x="20" y="176" fill="#8b9ab0" fontSize="7" fontFamily="monospace">
+        <text x="20" y="176" fill="#566A86" fontSize="7" fontFamily="monospace">
           300+ manual hours / year eliminated
         </text>
       </svg>
@@ -221,13 +221,13 @@ function DecisionMatrix() {
   return (
     <Frame caption="Opportunity against capital at risk. Illustrative — no real project data.">
       <svg viewBox="0 0 320 200" className="h-full w-full" role="img" aria-label="Exploration options plotted against capital at risk and uncertainty">
-        <line x1="34" y1="176" x2="308" y2="176" stroke="#1e2a3a" strokeWidth="1" />
-        <line x1="34" y1="176" x2="34" y2="14" stroke="#1e2a3a" strokeWidth="1" />
-        <text x="34" y="190" fill="#8b9ab0" fontSize="7" fontFamily="monospace">CAPITAL AT RISK →</text>
-        <text x="10" y="24" fill="#8b9ab0" fontSize="7" fontFamily="monospace">SIZE</text>
+        <line x1="34" y1="176" x2="308" y2="176" stroke="#DBE6F4" strokeWidth="1" />
+        <line x1="34" y1="176" x2="34" y2="14" stroke="#DBE6F4" strokeWidth="1" />
+        <text x="34" y="190" fill="#566A86" fontSize="7" fontFamily="monospace">CAPITAL AT RISK →</text>
+        <text x="10" y="24" fill="#566A86" fontSize="7" fontFamily="monospace">SIZE</text>
         {/* Quadrant guides */}
-        <line x1="170" y1="176" x2="170" y2="14" stroke="#1e2a3a" strokeWidth="1" strokeDasharray="3 4" />
-        <line x1="34" y1="96" x2="308" y2="96" stroke="#1e2a3a" strokeWidth="1" strokeDasharray="3 4" />
+        <line x1="170" y1="176" x2="170" y2="14" stroke="#DBE6F4" strokeWidth="1" strokeDasharray="3 4" />
+        <line x1="34" y1="96" x2="308" y2="96" stroke="#DBE6F4" strokeWidth="1" strokeDasharray="3 4" />
         {/* Risked options, sized by uncertainty */}
         {[
           { x: 92, y: 62, r: 7 },
@@ -241,12 +241,12 @@ function DecisionMatrix() {
             cx={d.x}
             cy={d.y}
             r={d.r}
-            fill="rgba(76,194,255,0.22)"
-            stroke="#4cc2ff"
+            fill="rgba(29,95,208,0.22)"
+            stroke="#1D5FD0"
             strokeWidth="1.2"
           />
         ))}
-        <text x="200" y="30" fill="#ffb454" fontSize="7" fontFamily="monospace">SCREEN ZONE</text>
+        <text x="200" y="30" fill="#AD5417" fontSize="7" fontFamily="monospace">SCREEN ZONE</text>
       </svg>
     </Frame>
   );
@@ -257,20 +257,20 @@ function DerivativePlot() {
   return (
     <Frame caption="Pressure transient with the buildup interval identified. Synthetic data.">
       <svg viewBox="0 0 320 200" className="h-full w-full" role="img" aria-label="Log-log derivative plot showing pressure buildup interval and flow regimes">
-        <line x1="24" y1="176" x2="308" y2="176" stroke="#1e2a3a" strokeWidth="1" />
-        <line x1="24" y1="14" x2="24" y2="176" stroke="#1e2a3a" strokeWidth="1" />
+        <line x1="24" y1="176" x2="308" y2="176" stroke="#DBE6F4" strokeWidth="1" />
+        <line x1="24" y1="14" x2="24" y2="176" stroke="#DBE6F4" strokeWidth="1" />
         {/* Highlighted PBU interval */}
-        <rect x="96" y="14" width="150" height="162" fill="rgba(76,194,255,0.05)" />
-        <text x="100" y="26" fill="#4cc2ff" fontSize="6" fontFamily="monospace">PBU</text>
+        <rect x="96" y="14" width="150" height="162" fill="rgba(29,95,208,0.05)" />
+        <text x="100" y="26" fill="#1D5FD0" fontSize="6" fontFamily="monospace">PBU</text>
         {/* Pressure decline */}
-        <path d="M 28 34 C 60 40, 84 66, 96 96 L 246 168" fill="none" stroke="#4cc2ff" strokeWidth="1.5" />
+        <path d="M 28 34 C 60 40, 84 66, 96 96 L 246 168" fill="none" stroke="#1D5FD0" strokeWidth="1.5" />
         {/* Derivative */}
-        <path d="M 96 96 L 110 118 L 124 128 L 138 132 L 200 136 L 246 138" fill="none" stroke="#ffb454" strokeWidth="1.3" />
-        <circle cx="124" cy="128" r="2.5" fill="#ffb454" />
-        <text x="128" y="124" fill="#ffb454" fontSize="6" fontFamily="monospace">RADIAL</text>
-        <text x="30" y="46" fill="#8b9ab0" fontSize="6" fontFamily="monospace">WELLBORE STORAGE</text>
-        <text x="186" y="26" fill="#8b9ab0" fontSize="6" fontFamily="monospace">BOUNDARY</text>
-        <text x="30" y="192" fill="#8b9ab0" fontSize="7" fontFamily="monospace">LOG TIME →</text>
+        <path d="M 96 96 L 110 118 L 124 128 L 138 132 L 200 136 L 246 138" fill="none" stroke="#AD5417" strokeWidth="1.3" />
+        <circle cx="124" cy="128" r="2.5" fill="#AD5417" />
+        <text x="128" y="124" fill="#AD5417" fontSize="6" fontFamily="monospace">RADIAL</text>
+        <text x="30" y="46" fill="#566A86" fontSize="6" fontFamily="monospace">WELLBORE STORAGE</text>
+        <text x="186" y="26" fill="#566A86" fontSize="6" fontFamily="monospace">BOUNDARY</text>
+        <text x="30" y="192" fill="#566A86" fontSize="7" fontFamily="monospace">LOG TIME →</text>
       </svg>
     </Frame>
   );

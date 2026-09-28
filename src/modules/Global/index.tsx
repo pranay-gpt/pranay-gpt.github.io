@@ -1,6 +1,6 @@
 import Stratum from '../../components/Stratum';
+import Pop from '../../components/Pop';
 import { global } from '../../data/global.data';
-import { moduleById } from '../../data/moduleById';
 
 /**
  * INTERNATIONAL & EDUCATION.
@@ -11,22 +11,21 @@ import { moduleById } from '../../data/moduleById';
  * claiming you will.
  */
 export default function Global() {
-  const m = moduleById('global');
   const education = global.education.filter((e) => e.visibility === 'public');
   const places = global.international.filter((i) => i.visibility === 'public');
 
   return (
     <Stratum
       id="global"
-      depth={m.depth}
       index="07"
       title="Education & International Experience"
       lede="Where the work has taken me."
     >
       {/* Education */}
-      <div className="mb-12">
+      <div className="mb-4">
         {education.map((e) => (
-          <div key={e.id}>
+          <Pop key={e.id} className="rounded-[20px]">
+            <div className="rounded-[20px] p-5 md:p-6" style={{ background: '#fff', boxShadow: 'var(--shadow-sm)' }}>
             <h3 className="text-lg" style={{ color: 'var(--color-ink)' }}>
               {e.qualification}
             </h3>
@@ -45,21 +44,29 @@ export default function Global() {
                 {e.detail}
               </p>
             ) : null}
-          </div>
+            </div>
+          </Pop>
         ))}
       </div>
 
-      <hr className="rule mb-10" />
+      <div className="my-8 h-px" style={{ background: 'var(--color-line)' }} />
 
       {/* International — four location cards */}
-      <div className="grid gap-px sm:grid-cols-2" style={{ background: 'var(--color-line)' }}>
-        {places.map((p) => (
-          <div
+      <div className="grid gap-3 sm:grid-cols-2">
+        {places.map((p, i) => (
+          <Pop
             key={p.id}
-            className="p-5"
+            delay={i % 2}
+            className="rounded-[20px]"
+          >
+          <div
+            className="h-full rounded-[20px] p-5"
             style={{
-              background: 'var(--color-surface)',
-              ...(p.forwardLooking ? { boxShadow: 'inset 0 0 0 1px var(--color-accent)' } : {}),
+              background: '#fff',
+              boxShadow: p.forwardLooking ? 'var(--shadow-md)' : 'var(--shadow-sm)',
+              ...(p.forwardLooking
+                ? { boxShadow: 'inset 0 0 0 2px var(--color-accent)' }
+                : {}),
             }}
           >
             <div className="flex items-baseline justify-between gap-3">
@@ -74,11 +81,12 @@ export default function Global() {
               {p.what}
             </p>
             {p.forwardLooking ? (
-              <p className="mt-3 font-mono text-[10px] tracking-wider uppercase" style={{ color: 'var(--color-accent-2)' }}>
+              <p className="mt-3 font-mono text-[10px] tracking-wider uppercase" style={{ color: 'var(--color-accent)' }}>
                 Where I am heading
               </p>
             ) : null}
           </div>
+          </Pop>
         ))}
       </div>
     </Stratum>

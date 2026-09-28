@@ -165,6 +165,14 @@ export type ProjectVisual =
   | 'report'
   | 'screenshot';
 
+export interface ProjectImage {
+  src: string;
+  /** Required. An image with no alt text is worse than no image. */
+  alt: string;
+  /** Optional caption shown under the frame. */
+  caption?: string;
+}
+
 export type ProjectTier = 'open-source' | 'field';
 
 export interface Project {
@@ -175,10 +183,18 @@ export interface Project {
   role: string;
   repo?: string;
   liveUrl?: string;
+  /**
+   * Real screenshots. Only ever used for your own open-source repos.
+   * Employer work carries no images — its visuals are original synthetic
+   * figures, selected by `visual` instead.
+   */
+  images?: ProjectImage[];
   problem: string;
   approach: string;
   outcome: string;
   visual: ProjectVisual;
+  /** Featured cards render large and image-led, above the standard grid. */
+  featured?: boolean;
   /** Short verifiable proof points: "MIT", "513 tests", "3 stars". */
   badges?: string[];
   tags: string[];

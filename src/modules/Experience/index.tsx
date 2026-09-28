@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import Stratum from '../../components/Stratum';
+import Pop from '../../components/Pop';
 import Tag from '../../components/Tag';
 import { experience } from '../../data/experience.data';
-import { moduleById } from '../../data/moduleById';
 import type { Role } from '../../types/content';
 
 /**
@@ -16,39 +16,38 @@ import type { Role } from '../../types/content';
  * information anywhere — this is a touch-first rule.
  */
 export default function Experience() {
-  const m = moduleById('experience');
   const roles = experience.roles.filter((r) => r.visibility === 'public');
 
   return (
     <Stratum
       id="experience"
-      depth={m.depth}
       index="03"
       title="Experience"
       lede="Seven years across two companies, in the order they happened."
     >
-      <ol className="flex flex-col">
+      <div className="flex flex-col gap-5">
         {roles.map((role, i) => (
-          <li key={role.id}>
-            {i > 0 && <hr className="rule my-8 md:my-10" />}
-            <RoleCard role={role} />
-          </li>
+          <RoleCard key={role.id} role={role} delay={i} />
         ))}
-      </ol>
+      </div>
     </Stratum>
   );
 }
 
-function RoleCard({ role }: { role: Role }) {
+function RoleCard({ role, delay }: { role: Role; delay: number }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <article>
-      {/* Two-column grid on desktop; single column on mobile. */}
-      <div className="grid gap-3 md:grid-cols-[130px_1fr] md:gap-8">
+    <Pop as="article" delay={delay} className="rounded-[20px]">
+      <div
+        className="rounded-[20px] p-5 md:p-7"
+        style={{ background: '#fff', boxShadow: 'var(--shadow-sm)' }}
+      >
+        {/* Two-column grid on desktop; single column on mobile. */}
+        <div className="grid gap-2 md:grid-cols-[124px_1fr] md:gap-7">
         {/* Dates — muted mono column on desktop, line above on mobile */}
         <div
-          className="order-1 font-mono text-xs tracking-wide md:pt-1"
+          className="order-1 font-mono text-[11px] tracking-wide md:pt-1"
           style={{ color: 'var(--color-muted)' }}
         >
           <span className="md:block">{role.from}</span>
@@ -76,11 +75,11 @@ function RoleCard({ role }: { role: Role }) {
           {/* Scope — the statement that reframes everything beneath it. */}
           {role.scope ? (
             <blockquote
-              className="mt-4 border-l-2 py-1 pl-4 text-sm leading-relaxed"
+              className="mt-4 rounded-[14px] py-3 pl-4 pr-3 text-sm leading-relaxed"
               style={{
-                borderColor: 'var(--color-accent)',
+                background: 'var(--color-accent-soft)',
                 color: 'var(--color-ink)',
-                background: 'transparent',
+                boxShadow: 'inset 3px 0 0 var(--color-accent)',
               }}
             >
               {role.scope}
@@ -97,10 +96,13 @@ function RoleCard({ role }: { role: Role }) {
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-controls={`${role.id}-detail`}
-            className="mt-4 inline-flex min-h-11 items-center gap-2 font-mono text-xs tracking-wide"
-            style={{ color: 'var(--color-accent)' }}
+            className="mt-5 inline-flex min-h-12 items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-colors"
+            style={{
+              background: 'var(--color-accent-soft)',
+              color: 'var(--color-accent-deep)',
+            }}
           >
-            <span>{open ? '− Hide detail' : '+ Show detail'}</span>
+            <span>{open ? 'Hide detail' : 'Show detail'}</span>
             <span aria-hidden="true">{open ? '↑' : '↓'}</span>
           </button>
 
@@ -112,8 +114,8 @@ function RoleCard({ role }: { role: Role }) {
                 return (
                   <div key={group.heading}>
                     <h4
-                      className="mb-2 font-mono text-[10px] tracking-[0.2em] uppercase"
-                      style={{ color: 'var(--color-accent-2)' }}
+                      className="mb-2 font-mono text-[10px] font-medium tracking-[0.2em] uppercase"
+                      style={{ color: 'var(--color-accent)' }}
                     >
                       {group.heading}
                     </h4>
@@ -148,6 +150,7 @@ function RoleCard({ role }: { role: Role }) {
           </div>
         </div>
       </div>
-    </article>
+    </div>
+    </Pop>
   );
 }

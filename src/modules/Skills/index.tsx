@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import Stratum from '../../components/Stratum';
+import Pop from '../../components/Pop';
 import Tag from '../../components/Tag';
 import { skills } from '../../data/skills.data';
-import { moduleById } from '../../data/moduleById';
 
 /**
  * SKILLS — ordered reservoir → digital → agentic → tooling → languages.
@@ -16,7 +16,6 @@ import { moduleById } from '../../data/moduleById';
  * you to the relevant section.
  */
 export default function Skills() {
-  const m = moduleById('skills');
   const [active, setActive] = useState<string | null>(null);
 
   const ordered = skills.order
@@ -26,26 +25,26 @@ export default function Skills() {
   return (
     <Stratum
       id="skills"
-      depth={m.depth}
       index="06"
       title="Skills"
       lede="Tap any skill to see where it is evidenced."
     >
       <div className="flex flex-col gap-3">
-        {ordered.map((group) => {
+        {ordered.map((group, gi) => {
           const open = active === group.id;
           return (
+            <Pop key={group.id} delay={Math.min(gi, 4)} className="rounded-[20px]">
             <div
               key={group.id}
-              className="overflow-hidden rounded-lg"
-              style={{ background: 'var(--color-surface)', boxShadow: 'inset 0 0 0 1px var(--color-line)' }}
+              className="overflow-hidden rounded-[20px]"
+              style={{ background: '#fff', boxShadow: 'var(--shadow-sm)' }}
             >
               <button
                 type="button"
                 onClick={() => setActive(open ? null : group.id)}
                 aria-expanded={open}
                 aria-controls={`skills-${group.id}`}
-                className="flex min-h-14 w-full items-center justify-between gap-4 px-5 py-4 text-left"
+                className="flex min-h-16 w-full items-center justify-between gap-4 px-5 py-4 text-left transition-colors"
               >
                 <span className="text-base font-medium" style={{ color: 'var(--color-ink)' }}>
                   {group.label}
@@ -78,6 +77,7 @@ export default function Skills() {
                 </div>
               </div>
             </div>
+            </Pop>
           );
         })}
       </div>
@@ -104,8 +104,8 @@ function EvidencePanel({ skillLabel, onClose }: { skillLabel: string; onClose: (
 
   return (
     <div
-      className="mt-6 rounded-lg p-5"
-      style={{ background: 'var(--color-surface)', boxShadow: 'inset 0 0 0 1px var(--color-accent)' }}
+      className="mt-5 rounded-[20px] p-5"
+      style={{ background: 'var(--color-accent-soft)', boxShadow: 'var(--shadow-sm)' }}
       role="status"
     >
       <div className="flex items-start justify-between gap-4">

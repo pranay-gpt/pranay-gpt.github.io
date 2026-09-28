@@ -1,34 +1,55 @@
 @import 'tailwindcss';
 
 /* ==========================================================================
-   DESIGN TOKENS — §2.2 of the plan
-   One background, two surfaces, one accent, one sparing second.
-   Discipline: if --accent appears on more than five things, cut it.
+   DESIGN SYSTEM v2 — light, mid-blue, rounded
+   White canvas, one blue accent, generous radii, soft blue-tinted shadows.
    ========================================================================== */
 
 @theme {
-  --color-bg: #0a0e14;
-  --color-surface: #111721;
-  --color-surface-2: #161d29;
-  --color-line: #1e2a3a;
-  --color-ink: #e8edf4;
-  --color-muted: #8b9ab0;
-  --color-accent: #4cc2ff;
-  --color-accent-2: #ffb454;
+  --color-bg: #ffffff;
+  --color-bg-tint: #f7fafd;
+  --color-surface: #f4f8fd;
+  --color-surface-2: #e9f1fb;
+  --color-line: #dbe6f4;
+  --color-line-soft: #edf3fa;
+
+  --color-ink: #0c1d38;
+  --color-ink-2: #23385c;
+  --color-muted: #566a86;
+
+  --color-accent: #1d5fd0;
+  --color-accent-deep: #16489e;
+  --color-accent-soft: #e9f1fd;
+  --color-accent-line: #c3daf7;
+  --color-warm: #ad5417;
 
   --font-display: 'Space Grotesk', 'Archivo', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
 
-  /* Fluid type scale — 5 sizes visible at once, per §2.3 */
+  /* Radii — rounded is the brief, so radii are a first-class token. */
+  --radius-card: 20px;
+  --radius-img: 14px;
+  --radius-pill: 999px;
+
+  /* Soft, blue-tinted. Never a harsh black shadow. */
+  /* Blue-tinted, and deliberately visible: on white, a shadow this subtle
+     reads as a border rather than as elevation. */
+  --shadow-sm: 0 1px 2px rgb(16 40 80 / 0.05), 0 2px 8px rgb(16 40 80 / 0.06),
+              0 0 0 1px rgb(16 40 80 / 0.035);
+  --shadow-md: 0 2px 4px rgb(16 40 80 / 0.05), 0 10px 26px rgb(16 40 80 / 0.09),
+              0 0 0 1px rgb(16 40 80 / 0.04);
+  --shadow-lg: 0 4px 12px rgb(16 40 80 / 0.06), 0 22px 54px rgb(16 40 80 / 0.13),
+              0 0 0 1px rgb(16 40 80 / 0.045);
+
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
-  --text-base: clamp(1.0625rem, 0.98rem + 0.4vw, 1.125rem);
-  --text-lg: clamp(1.125rem, 1.05rem + 0.4vw, 1.25rem);
-  --text-xl: clamp(1.375rem, 1.2rem + 0.8vw, 1.75rem);
-  --text-2xl: clamp(1.75rem, 1.4rem + 1.6vw, 2.5rem);
-  --text-3xl: clamp(2.25rem, 1.6rem + 3vw, 3.5rem);
-  --text-4xl: clamp(2.75rem, 1.8rem + 4.4vw, 4.5rem);
+  --text-base: clamp(1.0625rem, 0.99rem + 0.35vw, 1.125rem);
+  --text-lg: clamp(1.125rem, 1.05rem + 0.35vw, 1.25rem);
+  --text-xl: clamp(1.375rem, 1.22rem + 0.7vw, 1.7rem);
+  --text-2xl: clamp(1.75rem, 1.45rem + 1.4vw, 2.4rem);
+  --text-3xl: clamp(2.1rem, 1.6rem + 2.4vw, 3.15rem);
+  --text-4xl: clamp(2.5rem, 1.7rem + 3.8vw, 4.25rem);
 }
 
 /* ==========================================================================
@@ -55,131 +76,106 @@ body {
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* Never let a notch or home indicator hide content. */
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
-  /* No horizontal scroll, ever. */
   overflow-x: hidden;
 }
 
-h1,
-h2,
-h3 {
+h1, h2, h3, h4 {
   font-family: var(--font-display);
   font-weight: 600;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  line-height: 1.12;
+  letter-spacing: -0.022em;
   margin: 0;
+  color: var(--color-ink);
   text-wrap: balance;
 }
 
-p {
-  margin: 0;
-  text-wrap: pretty;
-}
+p { margin: 0; text-wrap: pretty; }
 
 a {
   color: var(--color-accent);
   text-decoration: none;
   transition: color 160ms ease;
 }
-
-a:hover {
-  color: var(--color-ink);
-}
+a:hover { color: var(--color-accent-deep); }
 
 ::selection {
   background: var(--color-accent);
-  color: var(--color-bg);
+  color: #fff;
 }
 
-/* Keyboard focus must always be visible — accessibility is a real signal. */
 :focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 3px;
-  border-radius: 2px;
+  border-radius: 6px;
 }
 
 /* ==========================================================================
-   LAYOUT PRIMITIVES
+   LAYOUT
    ========================================================================== */
 
-/* The strata canvas sits behind everything, fixed, and never intercepts taps. */
-.strata-bg {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* Section rhythm. Generous on desktop, tighter on mobile so the first
-   viewport still carries the hero plus the impact stratum. */
 .shell {
   width: 100%;
-  max-width: 1180px;
+  max-width: 1120px;
   margin-inline: auto;
   padding-inline: 1.25rem;
-  /* Offset the mobile depth spine so content never sits under it. */
-  padding-left: calc(1.25rem + 3px);
+  padding-left: calc(1.25rem + 4px); /* clear the mobile depth spine */
 }
 
 @media (min-width: 768px) {
-  .shell {
-    padding-inline: 2.5rem;
-  }
-}
-
-/* Hairline rule — the only divider this site uses. No borders, no shadows. */
-.rule {
-  height: 1px;
-  background: var(--color-line);
-  border: 0;
-  margin: 0;
+  .shell { padding-inline: 2rem; padding-left: 2rem; }
 }
 
 /* ==========================================================================
-   MOTION — §2.4 budget
-   Small by design. On a phone, scroll-linked animation competes with
-   the scrolling itself, so almost everything is IntersectionObserver-based.
+   SCROLL MOTION
+   The brief asked for scroll effects and cards popping up. The budget is
+   small and deliberate: a short rise + scale, staggered within a grid,
+   every one of them one-shot and cheap. No looping background animation —
+   that was the thing that made the first version uncomfortable.
    ========================================================================== */
 
-@keyframes rise {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
+@keyframes card-in {
+  from { opacity: 0; transform: translate3d(0, 22px, 0) scale(0.975); }
+  to   { opacity: 1; transform: none; }
 }
 
-.reveal {
+@keyframes fade-in {
+  from { opacity: 0; transform: translate3d(0, 14px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* The pop-up card. `data-reveal` is set by the Reveal observer. */
+.pop {
   opacity: 0;
+  transform: translate3d(0, 22px, 0) scale(0.975);
+  will-change: opacity, transform;
 }
-
-.reveal.is-visible {
-  animation: rise 520ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+.pop.is-in {
+  animation: card-in 620ms cubic-bezier(0.16, 0.84, 0.34, 1) forwards;
 }
+.pop[data-delay='1'] { animation-delay: 70ms; }
+.pop[data-delay='2'] { animation-delay: 140ms; }
+.pop[data-delay='3'] { animation-delay: 210ms; }
+.pop[data-delay='4'] { animation-delay: 280ms; }
+.pop[data-delay='5'] { animation-delay: 350ms; }
 
-/* Reduced motion: static gradient bands, instant reveals, no canvas
-   animation. Full content parity is guaranteed, not best-effort. */
+.rise { opacity: 0; transform: translate3d(0, 14px, 0); }
+.rise.is-in { animation: fade-in 540ms cubic-bezier(0.16, 0.84, 0.34, 1) forwards; }
+
+/* Gentle hero drift. Transform only, so it stays on the compositor. */
+@keyframes drift {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(0, -18px, 0); }
+}
+.drift { animation: drift 9s ease-in-out infinite alternate; }
+
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  .reveal {
-    opacity: 1;
-  }
-
-  .reveal.is-visible {
-    animation: none;
-  }
-
-  *,
-  *::before,
-  *::after {
+  html { scroll-behavior: auto; }
+  .pop, .rise { opacity: 1; transform: none; }
+  .pop.is-in, .rise.is-in { animation: none; }
+  .drift { animation: none; }
+  *, *::before, *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
@@ -187,48 +183,22 @@ a:hover {
 }
 
 /* ==========================================================================
-   PRINT — §3.10. Some recruiters print. Make it a decent artefact.
+   PRINT — a recruiter may still print this.
    ========================================================================== */
 
 @media print {
   :root {
-    --color-bg: #ffffff;
-    --color-surface: #ffffff;
-    --color-surface-2: #ffffff;
-    --color-line: #cccccc;
-    --color-ink: #000000;
-    --color-muted: #555555;
-    --color-accent: #000000;
-    --color-accent-2: #000000;
+    --color-bg: #fff; --color-bg-tint: #fff; --color-surface: #fff;
+    --color-surface-2: #fff; --color-line: #ccc; --color-line-soft: #eee;
+    --color-ink: #000; --color-ink-2: #000; --color-muted: #444;
+    --color-accent: #000; --color-accent-deep: #000; --color-accent-soft: #fff;
+    --color-accent-line: #ccc; --color-warm: #000;
+    --shadow-sm: none; --shadow-md: none; --shadow-lg: none;
   }
-
-  body {
-    background: #fff;
-    color: #000;
-    font-size: 10.5pt;
-  }
-
-  /* Hide furniture, keep content. */
-  [data-print='hide'],
-  .strata-bg,
-  .depth-gauge,
-  .site-header {
-    display: none !important;
-  }
-
-  .reveal {
-    opacity: 1 !important;
-    animation: none !important;
-  }
-
-  a {
-    color: #000;
-    text-decoration: underline;
-  }
-
-  .stratum {
-    break-inside: avoid;
-    padding-block: 1.5rem !important;
-    min-height: 0 !important;
-  }
+  body { background: #fff; color: #000; font-size: 10.5pt; }
+  [data-print='hide'], .depth-gauge, .site-header, .hero-wash { display: none !important; }
+  .pop, .rise { opacity: 1 !important; transform: none !important; animation: none !important; }
+  a { color: #000; text-decoration: underline; }
+  .stratum { break-inside: avoid; padding-block: 1.25rem !important; }
+  img { max-width: 100% !important; }
 }

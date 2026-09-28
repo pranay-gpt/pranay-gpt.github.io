@@ -1,9 +1,8 @@
 /**
- * A small pill. Used for tech tags, proof badges and skill chips.
+ * Tag — a small pill. Light theme, soft border, generous radius.
  *
- * Kept deliberately plain: no shadow, no border, no gradient. The plan's
- * discipline is one background, two surfaces, one accent — and a chip that
- * tries too hard is the first place that discipline breaks.
+ * The `accent` tone is the only place the blue appears as a fill, so the
+ * accent count stays inside the five-item discipline from the plan.
  */
 export default function Tag({
   children,
@@ -11,20 +10,28 @@ export default function Tag({
   highlight = false,
 }: {
   children: React.ReactNode;
-  tone?: 'default' | 'muted' | 'accent';
+  tone?: 'default' | 'muted' | 'accent' | 'outline';
   highlight?: boolean;
 }) {
-  const base = 'inline-flex items-center rounded-full px-2.5 py-1 font-mono text-[11px] leading-none';
+  const base =
+    'inline-flex items-center rounded-full px-2.5 py-1 font-mono text-[11px] leading-none';
 
   if (highlight || tone === 'accent') {
     return (
       <span
         className={base}
-        style={{
-          background: 'rgba(76, 194, 255, 0.10)',
-          color: 'var(--color-accent)',
-          boxShadow: 'inset 0 0 0 1px rgba(76, 194, 255, 0.22)',
-        }}
+        style={{ background: 'var(--color-accent-soft)', color: 'var(--color-accent-deep)' }}
+      >
+        {children}
+      </span>
+    );
+  }
+
+  if (tone === 'outline') {
+    return (
+      <span
+        className={base}
+        style={{ background: '#fff', color: 'var(--color-accent-deep)', boxShadow: 'inset 0 0 0 1px var(--color-accent-line)' }}
       >
         {children}
       </span>
@@ -40,7 +47,10 @@ export default function Tag({
   }
 
   return (
-    <span className={base} style={{ background: 'var(--color-surface-2)', color: 'var(--color-ink)' }}>
+    <span
+      className={base}
+      style={{ background: '#fff', color: 'var(--color-ink-2)', boxShadow: 'inset 0 0 0 1px var(--color-line)' }}
+    >
       {children}
     </span>
   );

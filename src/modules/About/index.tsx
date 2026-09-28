@@ -1,48 +1,52 @@
 import Stratum from '../../components/Stratum';
+import Pop from '../../components/Pop';
 import { about } from '../../data/about.data';
-import { moduleById } from '../../data/moduleById';
 
 export default function About() {
-  const m = moduleById('about');
 
   return (
     <Stratum
       id="about"
-      depth={m.depth}
       index="02"
       title="About"
       lede={about.opener}
     >
-      <div className="grid gap-10 md:grid-cols-3 md:gap-8">
-        {about.paragraphs.map((p) => (
-          <div key={p.heading}>
-            <h3
-              className="mb-3 text-base font-semibold"
-              style={{ color: 'var(--color-accent)' }}
+      <div className="grid gap-5 md:grid-cols-3 md:gap-4">
+        {about.paragraphs.map((p, i) => (
+          <Pop
+            key={p.heading}
+            delay={i}
+            className="rounded-[20px] p-5"
+          >
+            <div
+              className="h-full rounded-[20px] p-5"
+              style={{ background: '#fff', boxShadow: 'var(--shadow-sm)' }}
             >
-              {p.heading}
-            </h3>
-            <p className="text-[15px] leading-relaxed" style={{ color: 'var(--color-ink)' }}>
-              {p.body}
-            </p>
-          </div>
+              <h3 className="mb-2.5 text-base" style={{ color: 'var(--color-accent)' }}>
+                {p.heading}
+              </h3>
+              <p className="text-[14px] leading-relaxed" style={{ color: 'var(--color-muted)' }}>
+                {p.body}
+              </p>
+            </div>
+          </Pop>
         ))}
       </div>
 
       {/* Languages — being visibly *working on it* beats a claim of competence. */}
-      <div className="mt-12">
+      <div className="mt-8">
         <h3
-          className="mb-4 font-mono text-[10px] tracking-[0.2em] uppercase"
+          className="mb-4 font-mono text-[10px] font-medium tracking-[0.2em] uppercase"
           style={{ color: 'var(--color-muted)' }}
         >
           Languages
         </h3>
-        <ul className="grid gap-px sm:grid-cols-2" style={{ background: 'var(--color-line)' }}>
+        <ul className="grid gap-2.5 sm:grid-cols-2">
           {about.languages.map((lang) => (
             <li
               key={lang.name}
-              className="flex items-center justify-between gap-4 px-4 py-3"
-              style={{ background: 'var(--color-bg)' }}
+              className="flex items-center justify-between gap-4 rounded-[14px] px-4 py-3"
+              style={{ background: 'var(--color-bg-tint)', boxShadow: 'inset 0 0 0 1px var(--color-line-soft)' }}
             >
               <span className="text-sm" style={{ color: 'var(--color-ink)' }}>
                 {lang.name}
@@ -50,12 +54,12 @@ export default function About() {
               <span className="flex items-center gap-3">
                 {typeof lang.progress === 'number' ? (
                   <span
-                    className="hidden h-1 w-16 rounded-full sm:block"
+                    className="hidden h-1.5 w-16 rounded-full sm:block"
                     style={{ background: 'var(--color-line)' }}
                     aria-hidden="true"
                   >
                     <span
-                      className="block h-1 rounded-full"
+                      className="block h-1.5 rounded-full"
                       style={{
                         width: `${lang.progress}%`,
                         background: 'var(--color-accent)',

@@ -72,15 +72,23 @@ Add or remove a bullet by adding or removing one object:
   approach: '…',
   outcome: '… include a number …',
   visual: 'dashboard',           // see the list below
+  images: [                      // optional; open-source repos only
+    { src: './img/screenshot.png', alt: 'What the screen shows' },
+  ],
   badges: ['MIT', '3★'],
   tags: ['Python', 'React'],
   visibility: 'public',
 }
 ```
 
-**`visual` options:** `screenshot` · `contour` · `srp` · `architecture` · `decision` ·
-`pta` · `report`. Each maps to a hand-built SVG figure in
+**`visual` options:** `contour` · `srp` · `architecture` · `decision` · `pta` ·
+`dashboard`. Each maps to a hand-built SVG figure in
 `src/components/ProjectVisual.tsx`. If you want a new one, tell me and I'll add it.
+
+**Adding a screenshot:** drop the file in `src/public/img/` and add it to the project's
+`images` array. `alt` text is required — an image without it is worse than no image.
+Set `featured: true` to give a card the large image-led treatment at the top of the
+section. **Employer work carries no images**; its figures are the synthetic SVGs.
 
 ---
 
@@ -216,11 +224,26 @@ If you're unsure whether something is safe, ask before adding it.
 
 ---
 
+## Adding a principle to "How I work"
+
+`src/data/approach.data.ts` → append to `principles`. Keep it to a short term and one
+line of body text. Five is already the limit; a sixth turns a position into a list.
+
+---
+
 ## The design rules, so edits stay consistent
 
-- **One accent colour.** `--accent` blue. If you're using it on more than five things,
-  you're using it too much.
-- **No shadows, no borders** except hairline rules at `--color-line`.
+- **Light theme.** White canvas (`--color-bg`). Never reintroduce a dark background.
+- **One accent colour.** `--accent` mid blue (`#1D5FD0`). If you're using it on more
+  than five things, you're using it too much.
+- **Rounded.** Cards 20px, images 14px, buttons fully round. Match the existing radii
+  rather than inventing new ones.
+- **Elevation, not outlines.** Cards get `--shadow-sm`, not a border. A border-only card
+  reads as flat.
+- **No looping background animation.** Static gradients only. The earlier animated
+  strata background was uncomfortable and has been removed for good.
+- **Scroll motion is one-shot.** `Pop` fires once, then leaves the element alone. No
+  loops, no re-triggering.
 - **Mobile first.** Designed at 390px. If something looks right on desktop and cramped
   on a phone, it's wrong.
 - **Tap targets ≥ 44px.** No exceptions.
