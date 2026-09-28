@@ -61,8 +61,14 @@ export default function Hero() {
             <Pop delay={2} className="mt-6 flex items-center gap-3.5 md:hidden">
               <Portrait variant="chip" />
               <div className="min-w-0">
-                <p className="text-lg font-medium md:text-xl" style={{ color: 'var(--color-ink-2)' }}>
-                  {hero.name} · {hero.role}
+                <p
+                  className="text-[1.6rem] leading-tight font-semibold md:text-3xl"
+                  style={{ color: 'var(--color-ink)' }}
+                >
+                  {hero.name}
+                </p>
+                <p className="mt-0.5 text-sm" style={{ color: 'var(--color-ink-2)' }}>
+                  {hero.role}
                 </p>
                 <p className="mt-0.5 font-mono text-xs" style={{ color: 'var(--color-muted)' }}>
                   {hero.location}
@@ -71,8 +77,14 @@ export default function Hero() {
             </Pop>
 
             <Pop delay={2} className="mt-6 hidden md:block">
-              <p className="text-lg font-medium md:text-xl" style={{ color: 'var(--color-ink-2)' }}>
-                {hero.name} · {hero.role}
+              <p
+                className="text-2xl leading-tight font-semibold md:text-[2rem]"
+                style={{ color: 'var(--color-ink)' }}
+              >
+                {hero.name}
+              </p>
+              <p className="mt-1.5 text-base" style={{ color: 'var(--color-ink-2)' }}>
+                {hero.role}
               </p>
               <p className="mt-1 font-mono text-xs" style={{ color: 'var(--color-muted)' }}>
                 {hero.location}
