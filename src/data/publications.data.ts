@@ -28,7 +28,12 @@ export const publications: PublicationsData = {
       date: '2026',
       kind: 'poster',
       role: 'Submitter, Author, Presenter',
-      coAuthors: ['Narendra Kumar', 'Darshan Sharma', 'B. Oraon'],
+      // Co-authors are named in the published abstract, but the public page
+      // does not name them. Two of the three are senior enough that listing
+      // them alongside a candidate's portfolio reads as borrowed credibility
+      // rather than as attribution, and one is a General Manager — naming a GM
+      // on someone's portfolio is not the candidate's to offer.
+      coAuthors: [],
       abstract:
         'An agentic AI workflow for autonomous production surveillance, combining data integration, anomaly detection, report generation and automated well control in a single system. It retrieves data from plant databases via SCADA, SQL, APIs and Python workflows, validates sensor data, and generates two daily production reports with field overview, production insights, well performance indicators and detected anomalies.',
       highlights: [
