@@ -31,14 +31,14 @@ export default function Portrait({
     return (
       <span
         className={`relative inline-block shrink-0 overflow-hidden rounded-full ${className}`}
-        style={{ width: 44, height: 44, boxShadow: 'inset 0 0 0 1px var(--color-line)' }}
+        style={{ width: 88, height: 88, boxShadow: 'inset 0 0 0 1px var(--color-line)' }}
       >
         <img
           src="./img/portrait@2x.jpg"
           srcSet="./img/portrait@2x.jpg 2x, ./img/portrait@3x.jpg 3x"
           alt=""
-          width={44}
-          height={44}
+          width={88}
+          height={88}
           className="h-full w-full object-cover"
         />
       </span>
