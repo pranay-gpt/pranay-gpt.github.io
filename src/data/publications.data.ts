@@ -7,8 +7,8 @@ export const publications: PublicationsData = {
       title: 'Revival of Production in a 100% Water Producing Well in a Marginal Field',
       venue: 'Urja Varta 2025 — Directorate General of Hydrocarbons, Bharat Mandapam, New Delhi',
       date: '23 June 2025',
-      kind: 'poster',
-      role: 'Co-author · reservoir modelling',
+      kind: 'paper',
+      role: 'Co-author and speaker · reservoir modelling',
       coAuthors: ['Sanjay Kumar', 'Somenath Ghosh', 'Niral Patel'],
       abstract:
         'A marginal gas field facing permanent closure after a monsoon shut-in left the well producing 100% water. Salinity analysis ruled out the suspected near-zone channeling and pointed to a failed isolation in a deeper zone; pressure analysis confirmed the crossflow mechanism. I built the reservoir model that quantified the water to be drained, giving the field team the confidence to keep producing instead of abandoning the well.',

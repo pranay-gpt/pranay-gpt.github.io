@@ -18,7 +18,7 @@ export default function Publications() {
       id="publications"
       index="04"
       title="Publications & Presentations"
-      lede="Conference work, presented and co-authored. Both below were delivered as poster presentations."
+      lede="Conference work, co-authored and presented. The Urja Varta paper was given as a speaker; the India Energy Week abstract was presented as a poster."
     >
       <div className="flex flex-col gap-5">
         {items.map((p, i) => (
