@@ -31,8 +31,8 @@ export const hero: HeroData = {
     'Seven years across Schlumberger and GAIL India — reservoir simulation, assisted history matching, and DGH-approved field development plans. In charge of reservoir and production engineering. I also ship the tooling: an MIT-licensed open-source reservoir simulation workbench now used by university students.',
 
   ctas: [
-    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/pranay-ism/' },
-    { label: 'Email', href: 'mailto:pranayg498@gmail.com' },
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/pranay-reservoir/' },
+    { label: 'Email', href: 'mailto:pranay.reservoir@gmail.com' },
     { label: 'GitHub', href: 'https://github.com/pranay-gpt' },
   ],
 

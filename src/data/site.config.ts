@@ -10,9 +10,9 @@ export const site: SiteConfig = {
   locale: 'en',
 
   social: {
-    linkedin: 'https://www.linkedin.com/in/pranay-ism/',
+    linkedin: 'https://www.linkedin.com/in/pranay-reservoir/',
     github: 'https://github.com/pranay-gpt',
-    email: 'pranayg498@gmail.com',
+    email: 'pranay.reservoir@gmail.com',
     phone: '+91-9525791068',
   },
 

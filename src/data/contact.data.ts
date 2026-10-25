@@ -23,7 +23,7 @@ export const contact: ContactData = {
     {
       id: 'linkedin',
       label: 'LinkedIn',
-      value: 'linkedin.com/in/pranay-ism',
+      value: 'linkedin.com/in/pranay-reservoir',
       href: site.social.linkedin ?? '',
       copyable: true,
     },
